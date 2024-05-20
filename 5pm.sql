@@ -242,12 +242,35 @@ esal FLOAT,
 eloc VARCHAR(32) NOT NULL,
 eage INT);
 
+mysql> desc employe;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| eid   | int         | NO   |     | NULL    |       |
+| ename | varchar(32) | NO   |     | NULL    |       |
+| esal  | float       | YES  |     | NULL    |       |
+| eloc  | varchar(32) | NO   |     | NULL    |       |
+| eage  | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
 INSERT INTO employe VALUES
 (101,'Kanna',46000.00,'UK',32),
 (102,'Karan',56000.00,'avp',38),
 (103,'Ananth',66000.00,'slg',35),
 (104,'Ashok',48000.00,'Svg',25),
 (105,'Naveen',96000.00,'kovai',28);
+mysql> select * from employe;
++-----+--------+-------+-------+------+
+| eid | ename  | esal  | eloc  | eage |
++-----+--------+-------+-------+------+
+| 101 | Kanna  | 46000 | UK    |   32 |
+| 102 | Karan  | 56000 | avp   |   38 |
+| 103 | Ananth | 66000 | slg   |   35 |
+| 104 | Ashok  | 48000 | Svg   |   25 |
+| 105 | Naveen | 96000 | kovai |   28 |
++-----+--------+-------+-------+------+
+5 rows in set (0.00 sec)
 
 INSERT INTO employe(ename,esal) VALUES(("Krish",85000.00));
 
@@ -260,9 +283,25 @@ esal FLOAT,
 eloc VARCHAR(32) NOT NULL,
 eage INT);
 
+mysql> desc employe;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| eid   | int         | NO   |     | NULL    |       |
+| ename | varchar(32) | YES  | UNI | NULL    |       |
+| esal  | float       | YES  |     | NULL    |       |
+| eloc  | varchar(32) | NO   |     | NULL    |       |
+| eage  | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
 INSERT INTO employe VALUES
 (101,'Kanna',46000.00,'UK',32),
 (102,'Kanna',56000.00,'avp',38);
+mysql> INSERT INTO employe VALUES
+    -> (101,'Kanna',46000.00,'UK',32),
+    -> (102,'Kanna',56000.00,'avp',38);
+ERROR 1062 (23000): Duplicate entry 'Kanna' for key 'employe.ename'
 
 CHECK 
 ======
@@ -273,6 +312,18 @@ esal FLOAT,
 eloc VARCHAR(32) NOT NULL,
 eage INT CHECK (eage>18));
 
+mysql> desc employe;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| eid   | int         | NO   |     | NULL    |       |
+| ename | varchar(32) | YES  | UNI | NULL    |       |
+| esal  | float       | YES  |     | NULL    |       |
+| eloc  | varchar(32) | NO   |     | NULL    |       |
+| eage  | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
 INSERT INTO employe VALUES
 (101,'Kanna',46000.00,'UK',15);
 mysql> INSERT INTO employe VALUES
@@ -282,6 +333,13 @@ ERROR 3819 (HY000): Check constraint 'employe_chk_1' is violated.
 mysql> INSERT INTO employe VALUES
     -> (101,'Kanna',46000.00,'UK',25);
 Query OK, 1 row affected (0.13 sec)
+mysql> select * from employe;
++-----+-------+-------+------+------+
+| eid | ename | esal  | eloc | eage |
++-----+-------+-------+------+------+
+| 101 | Kanna | 46000 | UK   |   25 |
++-----+-------+-------+------+------+
+1 row in set (0.00 sec)
 
 DEFAULT 
 =======
